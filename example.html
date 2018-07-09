@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个input自动获取下一个input焦点</title>
+    <style>
+        input {
+            width: 200px;
+            height: 60px;
+            line-height: 60px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--input输入框-->
+    <div class="container">
+        a: <input type="text" maxlength="1" /> b: <input type="text" maxlength="1" /> c: <input type="text" maxlength="1" />
+    </div>
+
+    <!-- <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script> -->
+    <script>
+        var container = document.getElementsByClassName("container")[0];
+        container.onkeyup = function(e) {
+            
+            var target = e.srcElement || e.target;
+            var maxLength = parseInt(target.attributes["maxlength"].value, 10);
+            var myLength = target.value.length;
+            if (myLength >= maxLength) {
+                var next = target;
+                while (next = next.nextElementSibling) {
+                    if (next == null)
+                        break;
+                    if (next.tagName.toLowerCase() === "input") {
+                        next.focus();
+                        break;
+                    }
+                }
+            }
+            // Move to previous field if empty (user pressed backspace)
+            else if (myLength === 0) {
+                var previous = target;
+                while (previous = previous.previousElementSibling) {
+                    if (previous == null)
+                        break;
+                    if (previous.tagName.toLowerCase() === "input") {
+                        previous.focus();
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
